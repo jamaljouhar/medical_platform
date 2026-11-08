@@ -1,0 +1,103 @@
+
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        profiling_collect_backtrace: '%kernel.debug%'
+
+    orm:
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+
+        auto_mapping: false
+
+        mappings:
+            Admin:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Auth/Register/Admin/Entity'
+                prefix: 'App\Auth\Register\Admin\Entity'
+                alias: Admin
+
+            Client:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Auth/Register/Client/Entity'
+                prefix: 'App\Auth\Register\Client\Entity'
+                alias: Client
+
+            Patient:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Patient/Entity'
+                prefix: 'App\Patient\Entity'
+                alias: Patient
+
+            Doctor:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Doctor/Entity'
+                prefix: 'App\Doctor\Entity'
+                alias: Doctor
+
+            Specialty:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Specialty/Entity'
+                prefix: 'App\Specialty\Entity'
+                alias: Specialty
+
+            Appointment:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Appointment/Entity'
+                prefix: 'App\Appointment\Entity'
+                alias: Appointment
+
+            Prescription:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Prescription/Entity'
+                prefix: 'App\Prescription\Entity'
+                alias: Prescription
+            
+            MedicalRecord:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/MedicalRecord/Entity'
+                prefix: 'App\MedicalRecord\Entity'
+                alias: MedicalRecord
+
+            Shared:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Shared/Entity'
+                prefix: 'App\Shared\Entity'
+                alias: Shared
+
+when@test:
+    doctrine:
+        dbal:
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+
+                doctrine.system_cache_pool:
+                    adapter: cache.system
